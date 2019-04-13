@@ -1,22 +1,64 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Irgendwat</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css"> -->
-    <style>
-        #large-content {
-            height: 5000px;
-            width: 100%;
-            background-color: brown;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Irgendwat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css"> -->
+  <style>
+    #large-content {
+      height: 5000px;
+      width: 100%;
+      background-color: brown;
+    }
+  </style>
 </head>
+
 <body>
-    <h1>Test-Seite, zum löschen</h1>
-    <div id="large-content"></div>
-    
+  <h1>Test-Seite, zum löschen</h1>
+  <div id="large-content"></div>
+
+  <script>
+    'use strict';
+
+    const url = "https://www.metaweather.com/api/location/";
+
+    let lat = 52.4461732,
+      lon = 13.3154200;
+
+
+    function getWoeid(lat, lon) {
+      fetch(url + `search/lattlong=${lat},${lon}`).then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Tja. Da stimmt wat nich");
+      }, error => console.log(error)
+      ).then(jsonResponse => {
+        console.log(response);
+        console.log(typeof response);
+
+      });
+    }
+
+    function getWeather(woeid) {
+      fetch(url + woeid).then(response => {
+        if (response.ok) {
+          return response.json();
+        }
+        throw new Error("Wetterdatenabfrage gescheitert");
+      }, error => console.log(error)
+      ).then(jsonResponse => {
+        console.log(jsonResponse);
+      });
+    }
+
+
+    getWoeid(lat, lon);
+  </script>
+
 </body>
+
 </html>
