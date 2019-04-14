@@ -22,27 +22,32 @@
 
   <script>
     'use strict';
+    /* ISSUE: No 'Access-Control-Allow-Origin' Header set on API site. */
+    /* Try solution: https://stackoverflow.com/questions/43262121/trying-to-use-fetch-and-pass-in-mode-no-cors/43268098 */
+
+    const proxyUrl = "https://cors-anywhere.herokuapp.com/";
 
     const url = "https://www.metaweather.com/api/location/";
 
     let lat = 52.4461732,
-      lon = 13.3154200;
+        lon = 13.3154200;
 
 
     function getWoeid(lat, lon) {
-      fetch(url + `search/lattlong=${lat},${lon}`, {
-        'mode': 'no-cors'
+      fetch(proxyUrl + url + `search/?lattlong=${lat},${lon}`, {
+        origin: null,
+        'X-Requested-With': "XMLHttpRequest"
       }).then(response => {
         console.log(response);
         
         if (response.ok) {
           return response.json();
         }
-        throw new Error("response.ok is falsy or not present.");
+        throw new Error("response is not ok.");
       }, error => console.log(error)
       ).then(jsonResponse => {
-        console.log(response);
-        console.log(typeof response);
+        console.log(jsonResponse);
+        console.log(typeof jsonResponse);
 
       });
     }
@@ -52,7 +57,7 @@
         if (response.ok) {
           return response.json();
         }
-        throw new Error("response.ok is falsy or not present.");
+        throw new Error("response is not ok.");
       }, error => console.log(error)
       ).then(jsonResponse => {
         console.log(jsonResponse);
